@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2024 at 06:51 AM
+-- Generation Time: Aug 19, 2024 at 02:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -219,6 +219,26 @@ CREATE TABLE `reward_logs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `key_name` varchar(255) NOT NULL,
+  `key_value` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`key_name`, `key_value`) VALUES
+('earning_percentage_1', '0.0035'),
+('earning_percentage_2', '0.0045'),
+('earning_percentage_3', '0.0055');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stakings`
 --
 
@@ -411,6 +431,12 @@ ALTER TABLE `reward_logs`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`key_name`);
+
+--
 -- Indexes for table `stakings`
 --
 ALTER TABLE `stakings`
@@ -525,7 +551,7 @@ ALTER TABLE `reward_logs`
 -- AUTO_INCREMENT for table `stakings`
 --
 ALTER TABLE `stakings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `staking_requests`
@@ -543,7 +569,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
 
 --
 -- AUTO_INCREMENT for table `user_payments`
