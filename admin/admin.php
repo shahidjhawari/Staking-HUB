@@ -1,10 +1,15 @@
 <?php
-ob_start();
+// admin.php
 require('top.inc.php');
+
+// Clear the earnings processed flag
+if (isset($_SESSION['earnings_processed'])) {
+    unset($_SESSION['earnings_processed']);
+}
 
 // Fetch current percentages from the database
 $query = "SELECT key_name, key_value FROM settings WHERE key_name IN ('earning_percentage_1', 'earning_percentage_2', 'earning_percentage_3')";
-$result = $con->query($query);
+$result = $conn->query($query);
 
 $percentages = [
     'earning_percentage_1' => '0.0035',
@@ -15,7 +20,6 @@ $percentages = [
 while ($row = $result->fetch_assoc()) {
     $percentages[$row['key_name']] = $row['key_value'];
 }
-
 ?>
 
 <div class="container">
