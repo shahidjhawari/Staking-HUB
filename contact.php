@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="account activation issue">Account Activation Issue</option>
                 <option value="transaction issue/deposit issue">Transaction Issue/Deposit Issue</option>
                 <option value="staking/daily earning & withdraw issue">Staking/Daily Earning & Withdraw Issue</option>
-                <option value="lost private key">Lost Private Key ($5 Fee chrage)</option>
+                <option value="lost private key">Lost Private Key ($5 Fee will be charge)</option>
                 <option value="other">Other</option>
             </select>
         </div>
