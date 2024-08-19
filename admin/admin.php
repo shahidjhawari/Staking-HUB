@@ -9,7 +9,7 @@ if (isset($_SESSION['earnings_processed'])) {
 
 // Fetch current percentages from the database
 $query = "SELECT key_name, key_value FROM settings WHERE key_name IN ('earning_percentage_1', 'earning_percentage_2', 'earning_percentage_3')";
-$result = $conn->query($query);
+$result = $con->query($query);
 
 $percentages = [
     'earning_percentage_1' => '0.0035',
