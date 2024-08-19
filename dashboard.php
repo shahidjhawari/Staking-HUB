@@ -545,7 +545,6 @@ $stmt->close();
                                     <?php foreach ($announcements as $index => $announcement) : ?>
                                         <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
                                             <div class="d-block w-100 p-4">
-                                                <h5><?php echo htmlspecialchars($announcement['announcement_date']); ?></h5>
                                                 <p><?php echo htmlspecialchars($announcement['message']); ?></p>
                                             </div>
                                         </div>
