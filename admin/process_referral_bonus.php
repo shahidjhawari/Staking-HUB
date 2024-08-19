@@ -39,11 +39,11 @@ while ($earnings = $result->fetch_assoc()) {
     $referrer_chain = $stmt_referrer_chain->get_result()->fetch_assoc();
     $stmt_referrer_chain->close();
 
-    // Rewards for level 1, 2, 3
+    // Updated rewards for level 1, 2, 3
     $reward_percentages = [
         'level1' => 0.1, // 10% for level 1
-        'level2' => 0.05, // 5% for level 2
-        'level3' => 0.02 // 2% for level 3
+        'level2' => 0.08, // 8% for level 2
+        'level3' => 0.05 // 5% for level 3
     ];
 
     foreach (['level1', 'level2', 'level3'] as $level) {

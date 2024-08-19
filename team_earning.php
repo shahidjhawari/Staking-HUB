@@ -74,8 +74,9 @@ $referral_rewards_stmt = $conn->prepare("
     SELECT rr.*, u.name AS referred_user,
            CASE
                WHEN rr.reward_percentage = 10 THEN 'Level 1'
-               WHEN rr.reward_percentage = 5 THEN 'Level 2'
-               WHEN rr.reward_percentage = 2 THEN 'Level 3'
+               WHEN rr.reward_percentage = 8 THEN 'Level 2'
+               WHEN rr.reward_percentage = 5 THEN 'Level 3'
+               ELSE 'Unknown'
            END AS reward_level
     FROM referral_rewards rr
     JOIN users u ON rr.referred_user_id = u.id
