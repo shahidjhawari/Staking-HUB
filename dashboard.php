@@ -384,8 +384,8 @@ while ($row_accepted = $result_accepted->fetch_assoc()) {
 
 
 
-// Fetch total referral earnings
-$stmt = $conn->prepare("SELECT SUM(referral_daily_reward) AS total_referral_earnings FROM deposits WHERE user_id = ?");
+// Fetch total referral earnings from ClaimedEarning table
+$stmt = $conn->prepare("SELECT SUM(amount) AS total_referral_earnings FROM claimedearning WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $total_referral_earnings_row = $stmt->get_result()->fetch_assoc();
