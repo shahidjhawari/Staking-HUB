@@ -198,12 +198,15 @@ $stmt->close();
 
 <div class="col-12 mb-4">
     <div class="alert alert-info mt-3">
-        <?php if ($claimable_amount > 0 && $accepted_requests) : ?>
+        <?php if ($accepted_requests && $total_remaining_earning >= $claimable_amount) : ?> 
+            
         <?php else : ?>
+            <!-- Show 'No' when the button is disabled -->
             Start staking to claim reward
         <?php endif; ?>
     </div>
 </div>
+
 
 <div class="container mt-5">
     <h1>Referral Rewards</h1>
