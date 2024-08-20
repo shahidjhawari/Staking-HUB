@@ -391,6 +391,23 @@ $stmt->execute();
 $total_referral_earnings_row = $stmt->get_result()->fetch_assoc();
 $total_referral_earnings = $total_referral_earnings_row['total_referral_earnings'] ?? 0;
 $stmt->close();
+
+
+
+
+// Fetch all new_referral_amount values for the user
+$stmt = $conn->prepare("SELECT new_referral_amount FROM deposits WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$total_new_referral_amount = 0;
+
+while ($row = $result->fetch_assoc()) {
+    $total_new_referral_amount += floatval($row['new_referral_amount']);
+}
+
+$stmt->close();
 ?>
 
 <div class="container-fluid py-4">
@@ -465,7 +482,7 @@ $stmt->close();
                     <div class="row">
                         <div class="col-12">
                             <p class="fs-5 mb-3">Total Team Earning</p>
-                            <h2 class="display-5 mb-4" style="margin-top: -15px;">$<?php echo number_format($total_referral_earnings, 2); ?>
+                            <h2 class="display-5 mb-4" style="margin-top: -15px;">$<?php echo number_format($total_referral_earnings, 2) + number_format($total_new_referral_amount, 2); ?>.00
                                 <!-- <p><a href="team.php" class="btn btn-info">Team Building</a></p> -->
                         </div>
                     </div>

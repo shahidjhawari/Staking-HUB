@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($deposit) {
                 // Update the existing deposit record by adding the claimed amount
                 $new_amount = $deposit['amount'] + $claim_amount;
-                $stmt = $conn->prepare("UPDATE deposits SET amount = ? WHERE id = ?");
-                $stmt->bind_param("di", $new_amount, $deposit['id']);
+                $stmt = $conn->prepare("UPDATE deposits SET amount = ?, new_referral_amount = new_referral_amount + ? WHERE id = ?");
+                $stmt->bind_param("ddi", $new_amount, $claim_amount, $deposit['id']);
                 $stmt->execute();
                 $stmt->close();
             } else {

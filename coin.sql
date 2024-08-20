@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2024 at 02:40 PM
+-- Generation Time: Aug 20, 2024 at 08:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -147,7 +147,8 @@ CREATE TABLE `deposits` (
   `bonus_claimed_amount` decimal(10,2) DEFAULT 0.00,
   `referral_daily_reward` decimal(10,2) DEFAULT 0.00,
   `rejection_reason` varchar(255) DEFAULT NULL,
-  `new_amount` decimal(10,2) NOT NULL
+  `new_amount` decimal(10,2) NOT NULL,
+  `new_referral_amount` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -551,7 +552,7 @@ ALTER TABLE `reward_logs`
 -- AUTO_INCREMENT for table `stakings`
 --
 ALTER TABLE `stakings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `staking_requests`
@@ -569,7 +570,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT for table `user_payments`
