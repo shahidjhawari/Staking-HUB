@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             // Insert the claimed amount into ClaimedEarning table
-            $stmt = $conn->prepare("INSERT INTO ClaimedEarning (user_id, amount) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO claimedearning (user_id, amount) VALUES (?, ?)");
             $stmt->bind_param("id", $user_id, $claim_amount);
             $stmt->execute();
             $stmt->close();
