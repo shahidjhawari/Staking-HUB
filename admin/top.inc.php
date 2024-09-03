@@ -91,7 +91,13 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
                             <a class="nav-link" href="manage_announcements.php">Edit & Delete Announcement</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="admin_change_password.php">Update Admin Password</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="admin_view_contacts.php">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>
