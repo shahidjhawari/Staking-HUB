@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <div class="container my-5">
-    <h2 class="text-center">Transfer Amount to your freind</h2>
+    <h2 class="text-center">Transfer Amount to your freinds</h2>
     <form method="POST" action="" class="mt-4">
         <div class="mb-3">
             <label for="username" class="form-label">Username:</label>
