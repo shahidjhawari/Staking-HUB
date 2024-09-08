@@ -224,7 +224,7 @@ $stmt->close();
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="stackingDropdown">
                                 <li><a class="dropdown-item" href="staking.php">Stacking</a></li>
-                                <li><a class="dropdown-item" href="sendamount.php">P2P (Coming Soon)</a></li>
+                                <li><a class="dropdown-item" href="sendamount.php">P2P Send Amount</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
