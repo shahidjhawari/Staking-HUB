@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Verify the provided random string
             if ($user_random_string !== $provided_random_string) {
-                throw new Exception("Random string does not match.");
+                throw new Exception("Private Key does not match.");
             }
 
             // Fetch the logged-in user's current deposit with 'Accepted' status
@@ -134,30 +134,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<div class="container my-5">
+    <h2 class="text-center">Transfer Amount to your freind</h2>
+    <form method="POST" action="" class="mt-4">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deduct Amount</title>
-</head>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount (min $5):</label>
+            <input type="number" id="amount" name="amount" class="form-control" step="0.01" required>
+            <div class="form-text text-danger">3% fee will be deducted.</div>
+        </div>
 
-<body>
-    <h2>Transfer Amount from Your Deposit</h2>
-    <form method="POST" action="">
-        <label for="username">Target Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        <div class="mb-3">
+            <label for="random_string" class="form-label">Your Private Key:</label>
+            <input type="text" id="random_string" name="random_string" class="form-control" required>
+        </div>
 
-        <label for="amount">Amount to Deduct (min $5):</label>
-        <input type="number" id="amount" name="amount" step="0.01" required><br><br>
-        <span style="color: red;">3% fee will be deducted.</span><br><br>
-
-        <label for="random_string">Your Random String:</label>
-        <input type="text" id="random_string" name="random_string" required><br><br>
-
-        <input type="submit" value="Submit">
+        <div class="text-center">
+            <input type="submit" value="Send Amount" class="btn btn-primary">
+        </div>
     </form>
-</body>
-
-</html>
+</div>
