@@ -14,12 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $target_username = trim($_POST['username']);
     $amount = trim($_POST['amount']);
     $provided_random_string = trim($_POST['random_string']);
+    $fee = $amount * 0.03; // Calculate 3% fee
+    $total_deduction = $amount + $fee; // Total amount to deduct
 
     // Validate inputs
     if (empty($target_username) || empty($amount) || empty($provided_random_string)) {
         echo "Please fill all the fields.";
     } elseif (!is_numeric($amount) || $amount <= 0) {
         echo "Please enter a valid amount.";
+    } elseif ($amount < 5) {
+        echo "The minimum amount you can send is $5.";
     } else {
         // Get logged-in user's ID
         $logged_in_user_id = $_SESSION['user_id'];
@@ -61,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $deposit_logged_in = $result_deposit_logged_in->fetch_assoc();
             $current_amount_logged_in = $deposit_logged_in['amount'];
 
-            // Check if the logged-in user has enough balance
-            if ($current_amount_logged_in < $amount) {
-                throw new Exception("Insufficient balance.");
+            // Check if the logged-in user has enough balance including the 3% fee
+            if ($current_amount_logged_in < $total_deduction) {
+                throw new Exception("Insufficient balance to cover the amount and fee.");
             }
 
-            // Deduct the amount from the logged-in user's deposit
-            $new_amount_logged_in = $current_amount_logged_in - $amount;
+            // Deduct the total amount (amount + fee) from the logged-in user's deposit
+            $new_amount_logged_in = $current_amount_logged_in - $total_deduction;
             $sql_update_logged_in = "UPDATE deposits SET amount = ? WHERE id = ?";
             $stmt_update_logged_in = $conn->prepare($sql_update_logged_in);
             $stmt_update_logged_in->bind_param("di", $new_amount_logged_in, $deposit_logged_in['id']);
@@ -120,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Commit the transaction
             $conn->commit();
-            echo "Amount successfully deducted from your account and added to " . htmlspecialchars($target_username) . "'s account.";
+            echo "Amount successfully deducted (including a 3% fee) from your account and added to " . htmlspecialchars($target_username) . "'s account.";
         } catch (Exception $e) {
             // An error occurred; rollback the transaction
             $conn->rollback();
@@ -132,24 +136,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deduct Amount</title>
 </head>
+
 <body>
     <h2>Transfer Amount from Your Deposit</h2>
     <form method="POST" action="">
         <label for="username">Target Username:</label>
         <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="amount">Amount to Deduct:</label>
+
+        <label for="amount">Amount to Deduct (min $5):</label>
         <input type="number" id="amount" name="amount" step="0.01" required><br><br>
-        
+        <span style="color: red;">3% fee will be deducted.</span><br><br>
+
         <label for="random_string">Your Random String:</label>
         <input type="text" id="random_string" name="random_string" required><br><br>
-        
+
         <input type="submit" value="Submit">
     </form>
 </body>
+
 </html>
