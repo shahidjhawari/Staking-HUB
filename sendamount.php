@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif (!is_numeric($amount) || $amount <= 0) {
         echo "Please enter a valid amount.";
     } elseif ($amount < 5) {
-        echo "The minimum amount you can send is $5.";
+        echo "<span style='color: red;'>The minimum amount you can send is $5.</span>";
     } else {
         // Get logged-in user's ID
         $logged_in_user_id = $_SESSION['user_id'];
@@ -122,6 +122,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
 
+            // Record the transaction in the `sendamount` table
+            $sql_record_transaction = "INSERT INTO sendamount (sender_id, recipient_id, amount, fee, total_deduction) VALUES (?, ?, ?, ?, ?)";
+            $stmt_record_transaction = $conn->prepare($sql_record_transaction);
+            $stmt_record_transaction->bind_param("iiidd", $logged_in_user_id, $target_user_id, $amount, $fee, $total_deduction);
+            if (!$stmt_record_transaction->execute()) {
+                throw new Exception("Failed to record the transaction.");
+            }
+
             // Commit the transaction
             $conn->commit();
             echo "Amount successfully deducted (including a 3% fee) from your account and added to " . htmlspecialchars($target_username) . "'s account.";
@@ -132,10 +140,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+
+// Fetch all transaction records for display
+$sql_records = "SELECT u1.username AS sender, u2.username AS recipient, s.amount, s.fee, s.total_deduction, s.created_at
+                FROM sendamount s
+                JOIN users u1 ON s.sender_id = u1.id
+                JOIN users u2 ON s.recipient_id = u2.id
+                ORDER BY s.created_at DESC";
+$result_records = $conn->query($sql_records);
 ?>
 
+<style>
+    th,
+    td {
+        color: white;
+    }
+</style>
+
 <div class="container my-5">
-    <h2 class="text-center">Transfer Amount to your freinds</h2>
+    <h2 class="text-center">Transfer Amount to Your Friends</h2>
     <form method="POST" action="" class="mt-4">
         <div class="mb-3">
             <label for="username" class="form-label">Username:</label>
@@ -157,4 +180,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="submit" value="Send Amount" class="btn btn-primary">
         </div>
     </form>
+
+    <div class="mt-5">
+    <h3 class="text-center">Transaction Records</h3>
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sender Username</th>
+                    <th>Recipient Username</th>
+                    <th>Amount</th>
+                    <th>Fee</th>
+                    <th>Total Deduction</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result_records->num_rows > 0): ?>
+                    <?php while ($row = $result_records->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['sender']); ?></td>
+                            <td><?php echo htmlspecialchars($row['recipient']); ?></td>
+                            <td><?php echo number_format($row['amount'], 2); ?></td>
+                            <td><?php echo number_format($row['fee'], 2); ?></td>
+                            <td><?php echo number_format($row['total_deduction'], 2); ?></td>
+                            <td><?php echo $row['created_at']; ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6" class="text-center">No records found.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
+<?php
+require('footer.php'); // Ensure this includes closing HTML tags and footer content
+?>
