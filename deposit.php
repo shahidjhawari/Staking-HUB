@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->close();
 
         // Check if payment method is USDT and give bonus
-        if ($payment_method == 'USDT') {
+        if ($payment_method == 'USDT' || 'binance') {
           $bonus_amount = $amount * 0.05; // 5% bonus
           $stmt = $conn->prepare("INSERT INTO bonus_rewards (user_id, transaction_id, bonus_amount) VALUES (?, ?, ?)");
           $stmt->bind_param("isd", $user_id, $transaction_id, $bonus_amount);
@@ -129,9 +129,9 @@ $stmt->close();
             <button type="submit" class="btn btn-info btn-block">Submit</button>
           </form>
           <p id="converted-amount" class="mt-3"></p>
-          <!-- <div class="alert alert-info mt-3">
-            By selecting USDT, you will receive a 5% bonus on your deposit!
-          </div> -->
+          <div class="alert alert-info mt-3">
+            By selecting USDT & Binance ID, you will receive a 5% bonus on your deposit!
+          </div>
         </div>
       </div>
     </div>
