@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('header.php');
+$config = include('config.php');
 
 // Redirect to login page if not logged in
 if (!isset($_SESSION['user_id'])) {
@@ -44,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute();
         $stmt->close();
 
-        // Check if payment method is USDT and give bonus
-        // if ($payment_method == 'USDT' || 'binance') {
-        //   $bonus_amount = $amount * 0.05; // 5% bonus
-        //   $stmt = $conn->prepare("INSERT INTO bonus_rewards (user_id, transaction_id, bonus_amount) VALUES (?, ?, ?)");
-        //   $stmt->bind_param("isd", $user_id, $transaction_id, $bonus_amount);
-        //   $stmt->execute();
-        //   $stmt->close();
-        // }
+        // Check if payment method is USDT or Binance and give bonus
+        if ($config['bonus_enabled'] && ($payment_method == 'USDT' || $payment_method == 'binance')) {
+          $bonus_amount = $amount * 0.05; // 5% bonus
+          $stmt = $conn->prepare("INSERT INTO bonus_rewards (user_id, transaction_id, bonus_amount) VALUES (?, ?, ?)");
+          $stmt->bind_param("isd", $user_id, $transaction_id, $bonus_amount);
+          $stmt->execute();
+          $stmt->close();
+        }
 
         // JavaScript redirect to dashboard page
         echo "<script>alert('Deposit submitted successfully.'); window.location.href = 'dashboard.php';</script>";
