@@ -131,7 +131,7 @@ $stmt->close();
           </form>
           <p id="converted-amount" class="mt-3"></p>
           <div class="alert alert-info mt-3">
-            By selecting USDT & Binance ID, you will receive a 5% bonus on your deposit!
+            Get 5% bonus on your first deposit!
           </div>
         </div>
       </div>
