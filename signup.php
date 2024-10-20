@@ -17,7 +17,7 @@ $passwordError = "";
 $referralError = "";
 $usernameError = "";
 
-// Check for referral code in URL
+// Check for referral code in URL Tes
 $referral_code = isset($_GET['referral']) ? test_input($_GET['referral']) : "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
