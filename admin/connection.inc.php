@@ -1,8 +1,8 @@
 <?php
 session_start();
 $con = mysqli_connect("localhost", "root", "", "coin");
-define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . 'coin');
-define('SITE_PATH', 'http://localhost/coin/');
+define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . 'nawab');
+define('SITE_PATH', 'http://localhost/nawab/');
 
 
 // Online Code Here

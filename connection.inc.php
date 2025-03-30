@@ -5,8 +5,8 @@ $localhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1']);
 // Localhost Connection
 if ($localhost) {
     $conn = mysqli_connect("localhost", "root", "", "coin");
-    define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/coin/');
-    define('SITE_PATH', 'http://localhost/coin/');
+    define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/nawab/');
+    define('SITE_PATH', 'http://localhost/nawab/');
 } else {
     // Online Connection (Choose one of your hosting options)
     $host = $_SERVER['HTTP_HOST'];
