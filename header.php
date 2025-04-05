@@ -189,7 +189,7 @@ $stmt->close();
                             <a class="nav-link" href="profile.php">My Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="one_dollar.php">One Dollar Game</a>
+                            <a class="nav-link" href="one_dollar.php">1$ Game 🤑</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="dashboard.php">Wallet</a>
