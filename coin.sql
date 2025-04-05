@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2024 at 08:55 AM
+-- Generation Time: Apr 05, 2025 at 08:15 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,13 +44,6 @@ CREATE TABLE `admin_users` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `admin_users`
---
-
-INSERT INTO `admin_users` (`id`, `username`, `password`) VALUES
-(0, 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -236,6 +229,26 @@ INSERT INTO `settings` (`key_name`, `key_value`) VALUES
 ('earning_percentage_1', '0.0035'),
 ('earning_percentage_2', '0.0045'),
 ('earning_percentage_3', '0.0055');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `signup_settings`
+--
+
+CREATE TABLE `signup_settings` (
+  `id` int(11) NOT NULL,
+  `is_signup_enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` enum('enabled','disabled') NOT NULL DEFAULT 'enabled'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `signup_settings`
+--
+
+INSERT INTO `signup_settings` (`id`, `is_signup_enabled`, `updated_at`, `status`) VALUES
+(1, 1, '2025-04-05 06:09:17', 'enabled');
 
 -- --------------------------------------------------------
 
@@ -438,6 +451,12 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`key_name`);
 
 --
+-- Indexes for table `signup_settings`
+--
+ALTER TABLE `signup_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stakings`
 --
 ALTER TABLE `stakings`
@@ -540,7 +559,7 @@ ALTER TABLE `referral_rewards`
 -- AUTO_INCREMENT for table `rewards`
 --
 ALTER TABLE `rewards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `reward_logs`
@@ -549,28 +568,34 @@ ALTER TABLE `reward_logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `signup_settings`
+--
+ALTER TABLE `signup_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `stakings`
 --
 ALTER TABLE `stakings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
 -- AUTO_INCREMENT for table `staking_requests`
 --
 ALTER TABLE `staking_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT for table `user_payments`

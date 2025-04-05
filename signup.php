@@ -2,6 +2,31 @@
 ob_start();
 require('header.php');
 
+// Debugging - Check if connection is successful
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if signup is enabled
+$signupDisabled = false;
+$settingResult = $conn->query("SELECT status FROM signup_settings ORDER BY id DESC LIMIT 1");
+
+// Debugging - Check if the query executed correctly
+if ($settingResult) {
+    if ($settingResult->num_rows > 0) {
+        $row = $settingResult->fetch_assoc();
+        // Debugging - Check the value from the database
+        //var_dump($row); // This will show the status from the signup_settings table
+        if ($row['status'] === 'disabled') {
+            $signupDisabled = true;
+        }
+    } else {
+        echo "No settings found.";
+    }
+} else {
+    echo "Error with the query: " . $conn->error;
+}
+
 function test_input($data)
 {
     return htmlspecialchars(stripslashes(trim($data)));
@@ -17,10 +42,10 @@ $passwordError = "";
 $referralError = "";
 $usernameError = "";
 
-// Check for referral code in URL Tes
+// Check for referral code in URL Test
 $referral_code = isset($_GET['referral']) ? test_input($_GET['referral']) : "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
     $name = test_input($_POST["name"]);
     $username = test_input($_POST["username"]);
     $email = test_input($_POST["email"]);
@@ -32,36 +57,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!preg_match("/^[a-zA-Z0-9]+$/", $username)) {
         $usernameError = "Username can only contain letters and numbers.";
     } else {
-        // Check if the username already exists
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->store_result();
-
         if ($stmt->num_rows > 0) {
             $usernameError = "Username already exists.";
-            $stmt->close();
-        } else {
-            $stmt->close();
         }
+        $stmt->close();
     }
 
     // Validate email domain
     if (!preg_match("/@gmail\.com$/", $email)) {
         $emailError = "Email must be a Gmail address ending with '@gmail.com'.";
     } else {
-        // Check if the email already exists
         $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
-
         if ($stmt->num_rows > 0) {
             $emailError = "Email already exists.";
-            $stmt->close();
-        } else {
-            $stmt->close();
         }
+        $stmt->close();
     }
 
     if ($password != $confirmPassword) {
@@ -76,15 +93,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("s", $referral);
             $stmt->execute();
             $stmt->store_result();
-
             if ($stmt->num_rows > 0) {
                 $stmt->bind_result($referrer_id);
                 $stmt->fetch();
-                $stmt->close();
             } else {
                 $referralError = "Invalid referral code.";
-                $stmt->close();
             }
+            $stmt->close();
         }
 
         if (empty($referralError)) {
@@ -92,14 +107,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $referral_code = generateReferralCode();
 
-            // Insert new user
             $stmt = $conn->prepare("INSERT INTO users (name, username, email, password, random_string, referrer_id, referral_code) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssssis", $name, $username, $email, $hashed_password, $randomString, $referrer_id, $referral_code);
             if ($stmt->execute()) {
                 $user_id = $stmt->insert_id;
                 $stmt->close();
 
-                // Initialize rewards for the new user
                 $stmt = $conn->prepare("INSERT INTO rewards (user_id, reward_points, referral_count, level_one_count, level_two_count, level_three_count) VALUES (?, 0, 0, 0, 0, 0)");
                 $stmt->bind_param("i", $user_id);
                 $stmt->execute();
@@ -114,7 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 
 <style>
     body {
@@ -162,39 +174,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <div class="centered-form">
         <div class="form-container">
-            <form action="signup.php" method="post" autocomplete="off">
-                <div class="form-group">
-                    <label for="name">Name *</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required autocomplete="new-name">
-                </div>
-                <div class="form-group">
-                    <label for="username">Username *</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required autocomplete="new-username" minlength="8" maxlength="18">
-                    <span class="error"><?php echo $usernameError; ?></span>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
-                    <span class="error"><?php echo $emailError; ?></span>
-                </div>
-                <div class="form-group password-container">
-                    <label for="password">Password *</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20">
-                    <i class="fas fa-eye toggle-password" data-target="password"></i>
-                    <span class="error"><?php echo $passwordError; ?></span>
-                </div>
-                <div class="form-group password-container">
-                    <label for="confirmPassword">Confirm Password *</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required autocomplete="new-password" minlength="8" maxlength="20">
-                    <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
-                </div>
-                <div class="form-group">
-                    <label for="referral">Referral Code (optional)</label>
-                    <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>">
-                    <span class="error"><?php echo $referralError; ?></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-            </form>
+            <?php if ($signupDisabled): ?>
+                <p class="text-danger text-center">Signup limit reached, signup currently disabled.</p>
+            <?php else: ?>
+                <form action="signup.php" method="post" autocomplete="off">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required autocomplete="new-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username *</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required autocomplete="new-username" minlength="8" maxlength="18">
+                        <span class="error"><?php echo $usernameError; ?></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
+                        <span class="error"><?php echo $emailError; ?></span>
+                    </div>
+                    <div class="form-group password-container">
+                        <label for="password">Password *</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20">
+                        <i class="fas fa-eye toggle-password" data-target="password"></i>
+                        <span class="error"><?php echo $passwordError; ?></span>
+                    </div>
+                    <div class="form-group password-container">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required autocomplete="new-password" minlength="8" maxlength="20">
+                        <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="referral">Referral Code (optional)</label>
+                        <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>">
+                        <span class="error"><?php echo $referralError; ?></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                </form>
+            <?php endif; ?>
             <div class="text-center mt-3">
                 <p>Already have an account? <a href="index.php" class="text-decoration-none">Login</a></p>
             </div>
@@ -204,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
     document.querySelectorAll('.toggle-password').forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             const target = document.getElementById(this.getAttribute('data-target'));
             if (target.getAttribute('type') === 'password') {
                 target.setAttribute('type', 'text');
