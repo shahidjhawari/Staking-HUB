@@ -15,8 +15,6 @@ $settingResult = $conn->query("SELECT status FROM signup_settings ORDER BY id DE
 if ($settingResult) {
     if ($settingResult->num_rows > 0) {
         $row = $settingResult->fetch_assoc();
-        // Debugging - Check the value from the database
-        //var_dump($row); // This will show the status from the signup_settings table
         if ($row['status'] === 'disabled') {
             $signupDisabled = true;
         }
@@ -42,7 +40,6 @@ $passwordError = "";
 $referralError = "";
 $usernameError = "";
 
-// Check for referral code in URL Test
 $referral_code = isset($_GET['referral']) ? test_input($_GET['referral']) : "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
@@ -53,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
     $confirmPassword = test_input($_POST["confirmPassword"]);
     $referral = test_input($_POST["referral"]);
 
-    // Validate username
     if (!preg_match("/^[a-zA-Z0-9]+$/", $username)) {
         $usernameError = "Username can only contain letters and numbers.";
     } else {
@@ -67,8 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
         $stmt->close();
     }
 
-    // Validate email domain
-    if (!preg_match("/@gmail\.com$/", $email)) {
+    if (!preg_match("/@gmail\\.com$/", $email)) {
         $emailError = "Email must be a Gmail address ending with '@gmail.com'.";
     } else {
         $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
@@ -157,6 +152,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
         margin-top: 5px;
     }
 
+    .success {
+        color: #0f0;
+        margin-top: 5px;
+    }
+
     .password-container {
         position: relative;
     }
@@ -191,7 +191,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                         <label for="email">Email *</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
                         <span class="error"><?php echo $emailError; ?></span>
+                        <div id="emailMessage" class="mt-2"></div>
+                        <button type="button" class="btn btn-primary btn-block mt-3 mb-2" onclick="sendOTP()">Verify Email</button>
+
+                        <!-- OTP Section hidden by default -->
+                        <div id="otpSection" style="display:none;">
+                            <input type="text" id="otp" class="form-control mt-3" placeholder="Enter OTP">
+                            <button type="button" class="btn btn-success btn-block mt-2" onclick="verifyOTP()">Verify OTP</button>
+                            <div id="otpMessage" class="mt-2"></div>
+                        </div>
                     </div>
+
                     <div class="form-group password-container">
                         <label for="password">Password *</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20">
@@ -208,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                         <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>">
                         <span class="error"><?php echo $referralError; ?></span>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                    <button id="signupBtn" type="submit" class="btn btn-primary btn-block" disabled>Sign Up</button>
                 </form>
             <?php endif; ?>
             <div class="text-center mt-3">
@@ -219,18 +229,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
 </div>
 
 <script>
+    function sendOTP() {
+        const email = document.getElementById("email").value.trim();
+        const messageDiv = document.getElementById("emailMessage");
+        messageDiv.textContent = "";
+        messageDiv.className = "";
+
+        if (!email) {
+            messageDiv.textContent = "Please enter your email first.";
+            messageDiv.className = "error";
+            return;
+        }
+
+        if (!email.endsWith("@gmail.com")) {
+            messageDiv.textContent = "Only Gmail addresses are allowed.";
+            messageDiv.className = "error";
+            return;
+        }
+
+        fetch("sendmail.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "action=send&email=" + encodeURIComponent(email)
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes("OTP Sent")) {
+                    messageDiv.textContent = "OTP Sent! Please check your Gmail.";
+                    messageDiv.className = "success";
+                    document.getElementById("otpSection").style.display = "block";
+                } else {
+                    messageDiv.textContent = data;
+                    messageDiv.className = "error";
+                }
+            });
+    }
+
+    function verifyOTP() {
+        const userOtp = document.getElementById("otp").value.trim();
+        const messageDiv = document.getElementById("otpMessage");
+        messageDiv.textContent = "";
+        messageDiv.className = "";
+
+        fetch("sendmail.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "action=verify&otp=" + encodeURIComponent(userOtp)
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "verified") {
+                    messageDiv.textContent = "Email Verified ✅";
+                    messageDiv.className = "success";
+                    document.getElementById("signupBtn").disabled = false;
+                } else if (data === "expired") {
+                    messageDiv.textContent = "OTP has expired.";
+                    messageDiv.className = "error";
+                } else {
+                    messageDiv.textContent = "Invalid OTP.";
+                    messageDiv.className = "error";
+                }
+            });
+    }
+
+    // Show/Hide Password
     document.querySelectorAll('.toggle-password').forEach(item => {
-        item.addEventListener('click', function () {
+        item.addEventListener('click', function() {
             const target = document.getElementById(this.getAttribute('data-target'));
-            if (target.getAttribute('type') === 'password') {
-                target.setAttribute('type', 'text');
+            if (target.type === 'password') {
+                target.type = 'text';
                 this.classList.replace('fa-eye', 'fa-eye-slash');
             } else {
-                target.setAttribute('type', 'password');
+                target.type = 'password';
                 this.classList.replace('fa-eye-slash', 'fa-eye');
             }
         });
     });
 </script>
+
 
 <?php require('footer.php'); ?>
