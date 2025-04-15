@@ -20,11 +20,64 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['otp_expiry'] = time() + 300; // 5 minutes
 
         $data = [
-            'sender' => ['name' => 'NAWAB', 'email' => 'shahidjhawari@gmail.com'],
+            'sender' => ['name' => 'STAKINGHUB', 'email' => 'shahidjhawari@gmail.com'],
             'to' => [['email' => $email]],
             'subject' => 'Your OTP Code',
-            'htmlContent' => "<p>Your OTP code is: <strong>$otp</strong></p>"
-        ];
+            'htmlContent' => "
+                <html>
+                <head>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f9f9f9;
+                            color: #333;
+                            padding: 20px;
+                            text-align: center;
+                        }
+                        .container {
+                            background-color: #ffffff;
+                            padding: 40px;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                            max-width: 600px;
+                            margin: auto;
+                        }
+                        h4 {
+                            color:rgb(8, 0, 121);
+                            font-size: 20px;
+                            margin-bottom: 10px;
+                        }
+                        p {
+                            font-size: 16px;
+                            margin: 10px 0;
+                        }
+                        .otp {
+                            font-size: 36px;
+                            font-weight: bold;
+                            color:rgb(0, 0, 0);
+                            margin: 20px 0;
+                        }
+                        .footer {
+                            margin-top: 40px;
+                            font-size: 12px;
+                            color: #999;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <h4>Welcome to StakingHub</h4>
+                        <p>Thank you for visiting our website. We appreciate your presence.</p>
+                        <p style='margin-top: 50px'>Your OTP code is:</p>
+                        <div class='otp'>$otp</div>
+                        <div class='footer'>
+                            &copy; " . date('Y') . " Staking Hub. All rights reserved.
+                        </div>
+                    </div>
+                </body>
+                </html>
+            "
+        ];         
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://api.brevo.com/v3/smtp/email');
