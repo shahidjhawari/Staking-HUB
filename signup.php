@@ -25,10 +25,11 @@ if ($settingResult) {
     echo "Error with the query: " . $conn->error;
 }
 
-function test_input($data) {
-    $data = trim($data);                        
-    $data = stripslashes($data);                
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8'); 
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
     return $data;
 }
 
@@ -195,6 +196,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                         <span class="error"><?php echo $emailError; ?></span>
                         <div id="emailMessage" class="mt-2"></div>
                         <button type="button" class="btn btn-primary btn-block mt-3 mb-2" onclick="sendOTP()">Send OTP</button>
+                        <div id="otpTimer" class="text-center mt-2" style="font-weight:bold;"></div>
+
 
                         <!-- OTP Section hidden by default -->
                         <div id="otpSection" style="display:none;">
@@ -232,42 +235,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
 
 <script>
     function sendOTP() {
-        const email = document.getElementById("email").value.trim();
-        const messageDiv = document.getElementById("emailMessage");
-        messageDiv.textContent = "";
-        messageDiv.className = "";
+    const email = document.getElementById("email").value.trim();
+    const messageDiv = document.getElementById("emailMessage");
+    const sendBtn = document.querySelector("button[onclick='sendOTP()']");
+    const timerDiv = document.getElementById("otpTimer");
 
-        if (!email) {
-            messageDiv.textContent = "Please enter your email first.";
-            messageDiv.className = "error";
-            return;
-        }
+    messageDiv.textContent = "";
+    messageDiv.className = "";
+    timerDiv.textContent = "";
 
-        if (!email.endsWith("@gmail.com")) {
-            messageDiv.textContent = "Only Gmail addresses are allowed.";
-            messageDiv.className = "error";
-            return;
-        }
-
-        fetch("sendmail.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: "action=send&email=" + encodeURIComponent(email)
-            })
-            .then(response => response.text())
-            .then(data => {
-                if (data.includes("OTP Sent")) {
-                    messageDiv.textContent = "OTP Sent! Please check your Gmail.";
-                    messageDiv.className = "success";
-                    document.getElementById("otpSection").style.display = "block";
-                } else {
-                    messageDiv.textContent = data;
-                    messageDiv.className = "error";
-                }
-            });
+    if (!email) {
+        messageDiv.textContent = "Please enter your email first.";
+        messageDiv.className = "error";
+        return;
     }
+
+    if (!email.endsWith("@gmail.com")) {
+        messageDiv.textContent = "Only Gmail addresses are allowed.";
+        messageDiv.className = "error";
+        return;
+    }
+
+    // Disable Send OTP button and start timer
+    sendBtn.disabled = true;
+    let countdown = 60;
+    timerDiv.textContent = `You can resend OTP in ${countdown} seconds`;
+
+    const interval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+            timerDiv.textContent = `You can resend OTP in ${countdown} seconds`;
+        } else {
+            clearInterval(interval);
+            sendBtn.disabled = false;
+            timerDiv.textContent = "";
+        }
+    }, 1000);
+
+    // Send OTP Request
+    fetch("sendmail.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "action=send&email=" + encodeURIComponent(email)
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes("OTP Sent")) {
+            messageDiv.textContent = "OTP Sent! Please check your Gmail.";
+            messageDiv.className = "success";
+            document.getElementById("otpSection").style.display = "block";
+        } else {
+            messageDiv.textContent = data;
+            messageDiv.className = "error";
+        }
+    });
+}
+
 
     function verifyOTP() {
         const userOtp = document.getElementById("otp").value.trim();
@@ -288,6 +313,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                     messageDiv.textContent = "Email Verified ✅";
                     messageDiv.className = "success";
                     document.getElementById("signupBtn").disabled = false;
+                    const emailField = document.getElementById("email");
+                    emailField.readOnly = true;
+                    emailField.style.opacity = "0.6"; // تھوڑا fade کر دیں
+                    emailField.style.pointerEvents = "none"; // یوزر کلک بھی نہ کر سکے
+                    emailField.style.backgroundColor = "#f0f0f0"; // ہلکا gray background
+                    emailField.style.cursor = "not-allowed"; // cursor بھی بدل جائے
                 } else if (data === "expired") {
                     messageDiv.textContent = "OTP has expired.";
                     messageDiv.className = "error";
