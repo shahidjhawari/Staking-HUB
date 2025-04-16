@@ -22,6 +22,27 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+-- ID Reset to 0 code
+/*
+ALTER TABLE `admin_messages` AUTO_INCREMENT = 1;
+ALTER TABLE `admin_users` AUTO_INCREMENT = 1;
+ALTER TABLE `announcements` AUTO_INCREMENT = 1;
+ALTER TABLE `bonus_rewards` AUTO_INCREMENT = 1;
+ALTER TABLE `claimedearning` AUTO_INCREMENT = 1;
+ALTER TABLE `contact_messages` AUTO_INCREMENT = 1;
+ALTER TABLE `daily_earnings` AUTO_INCREMENT = 1;
+ALTER TABLE `deposits` AUTO_INCREMENT = 1;
+ALTER TABLE `referral_earnings` AUTO_INCREMENT = 1;
+ALTER TABLE `referral_rewards` AUTO_INCREMENT = 1;
+ALTER TABLE `rewards` AUTO_INCREMENT = 1;
+ALTER TABLE `reward_logs` AUTO_INCREMENT = 1;
+ALTER TABLE `stakings` AUTO_INCREMENT = 1;
+ALTER TABLE `staking_requests` AUTO_INCREMENT = 1;
+ALTER TABLE `transactions` AUTO_INCREMENT = 1;
+ALTER TABLE `users` AUTO_INCREMENT = 1;
+ALTER TABLE `user_payments` AUTO_INCREMENT = 1;
+ALTER TABLE `user_totals` AUTO_INCREMENT = 1;
+*/
 
 --
 -- Table structure for table `admin_messages`
