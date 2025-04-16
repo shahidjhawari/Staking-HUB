@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
                         <span class="error"><?php echo $emailError; ?></span>
                         <div id="emailMessage" class="mt-2"></div>
-                        <button type="button" class="btn btn-primary btn-block mt-3 mb-2" onclick="sendOTP()">Verify Email</button>
+                        <button type="button" class="btn btn-primary btn-block mt-3 mb-2" onclick="sendOTP()">Send OTP</button>
 
                         <!-- OTP Section hidden by default -->
                         <div id="otpSection" style="display:none;">

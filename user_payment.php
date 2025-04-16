@@ -132,7 +132,7 @@ $stmt->close();
                 <!-- <option value="Easy Paisa">Easy Paisa</option>
                 <option value="Jazz Cash">Jazz Cash</option> -->
                 <option value="Dollar">USDT</option>
-                <option value="binance">Binance Pay ID</option>
+                <!-- <option value="binance">Binance Pay ID</option> -->
             </select>
             <span id="fee_info" style="color: red;"></span>
         </div>
