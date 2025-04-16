@@ -130,9 +130,9 @@ $stmt->close();
             <button type="submit" class="btn btn-info btn-block">Submit</button>
           </form>
           <p id="converted-amount" class="mt-3"></p>
-          <div class="alert alert-info mt-3">
+          <!-- <div class="alert alert-info mt-3">
             Get 5% bonus on your first deposit!
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
