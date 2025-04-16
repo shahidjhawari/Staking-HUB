@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['otp_expiry'] = time() + 300; // 5 minutes
 
         $data = [
-            'sender' => ['name' => 'STAKINGHUB', 'email' => 'shahidjhawari@gmail.com'],
+            'sender' => ['name' => 'STAKINGHUB', 'email' => 'stakinghub8@gmail.com'],
             'to' => [['email' => $email]],
             'subject' => 'Your OTP Code',
             'htmlContent' => "
