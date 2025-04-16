@@ -10,6 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+function test_input($data)
+{
+    $data = trim($data);                                      // اضافی spaces ختم
+    $data = stripslashes($data);                              // backslashes ختم
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');     // XSS سے بچاؤ
+    return $data;
+}
+
 // Fetch user-specific data
 $stmt = $conn->prepare("SELECT name, username, email FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
@@ -29,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("si", $new_username, $user_id);
             $stmt->execute();
             $stmt->store_result();
-            
+
             if ($stmt->num_rows > 0) {
                 $error = "The username is already taken. Please choose another one.";
             } else {
@@ -47,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Username can only contain letters, numbers, and underscores, and must not contain spaces.";
         }
     } elseif (isset($_POST['update_password'])) {
-        $current_password = $_POST['current_password'];
-        $new_password = $_POST['new_password'];
-        $confirm_password = $_POST['confirm_password'];
+        $current_password  = test_input($_POST['current_password']);
+        $new_password      = test_input($_POST['new_password']);
+        $confirm_password  = test_input($_POST['confirm_password']);
 
         $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
         $stmt->bind_param("i", $user_id);

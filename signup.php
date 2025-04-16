@@ -25,9 +25,11 @@ if ($settingResult) {
     echo "Error with the query: " . $conn->error;
 }
 
-function test_input($data)
-{
-    return htmlspecialchars(stripslashes(trim($data)));
+function test_input($data) {
+    $data = trim($data);                        
+    $data = stripslashes($data);                
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8'); 
+    return $data;
 }
 
 function generateReferralCode($length = 8)

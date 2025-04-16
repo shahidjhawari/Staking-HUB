@@ -9,18 +9,29 @@ if (!isset($_SESSION['user_id'])) {
   exit();
 }
 
+function test_input($data){
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+  return $data;
+}
+
 $user_id = $_SESSION['user_id'];
 $min_amount = 10; // Minimum deposit amount
 
 $deposit_message = ""; // Variable to hold messages for the user
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $amount = $_POST['amount'];
-  $transaction_id = $_POST['transaction_id'];
-  $payment_method = $_POST['payment_method'];
-  $screenshot = $_FILES['screenshot']['name'];
-  $target_dir = PRODUCT_IMAGE_SERVER_PATH; // Use server path to store the file
-  $target_file = $target_dir . basename($screenshot);
+  $amount = test_input($_POST['amount']);
+  $transaction_id = test_input($_POST['transaction_id']);
+  $payment_method = test_input($_POST['payment_method']);
+
+  // Screenshot file name secure کرنا
+  $screenshot = basename($_FILES['screenshot']['name']);
+  $screenshot = preg_replace("/[^A-Za-z0-9\.\-_]/", "", $screenshot); // only safe characters allowed
+
+  $target_dir = PRODUCT_IMAGE_SERVER_PATH;
+  $target_file = $target_dir . $screenshot;
 
   // Validate amount
   if ($amount < $min_amount) {

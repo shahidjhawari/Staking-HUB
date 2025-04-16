@@ -10,6 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+function test_input($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+  return $data;
+}
+
 // Check if there is any pending transaction for the user
 $stmt = $conn->prepare("SELECT * FROM transactions WHERE user_id = ? AND status = 'pending'");
 $stmt->bind_param("i", $user_id);
@@ -27,8 +35,13 @@ if ($pending_transaction) {
 // Handle form submission if POST request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $amount = 10; // Fixed amount
-  $transaction_id = $_POST['transaction_id'];
-  $screenshot = $_FILES['screenshot']['name'];
+  // Sanitize transaction_id
+  $transaction_id = test_input($_POST['transaction_id']);
+
+  // Sanitize screenshot file name
+  $screenshot = basename($_FILES['screenshot']['name']);
+  $screenshot = preg_replace("/[^A-Za-z0-9\.\-_]/", "", $screenshot); // صرف محفوظ characters رہنے دیں
+
   $target_dir = PRODUCT_IMAGE_SERVER_PATH;
   $target_file = $target_dir . basename($screenshot);
 
