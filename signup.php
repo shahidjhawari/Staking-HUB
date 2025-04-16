@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
                         <span class="error"><?php echo $emailError; ?></span>
                         <div id="emailMessage" class="mt-2"></div>
-                        <button type="button" class="btn btn-primary btn-block mt-3 mb-2" onclick="sendOTP()">Send OTP</button>
+                        <button type="button" id="sendotpbtn" class="btn btn-primary btn-block mt-3 mb-2" onclick="sendOTP()">Send OTP</button>
                         <div id="otpTimer" class="text-center mt-2" style="font-weight:bold;"></div>
 
 
@@ -315,10 +315,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
                     document.getElementById("signupBtn").disabled = false;
                     const emailField = document.getElementById("email");
                     emailField.readOnly = true;
-                    emailField.style.opacity = "0.6"; // تھوڑا fade کر دیں
-                    emailField.style.pointerEvents = "none"; // یوزر کلک بھی نہ کر سکے
-                    emailField.style.backgroundColor = "#f0f0f0"; // ہلکا gray background
-                    emailField.style.cursor = "not-allowed"; // cursor بھی بدل جائے
+                    emailField.style.opacity = "0.6"; 
+                    emailField.style.pointerEvents = "none"; 
+                    emailField.style.backgroundColor = "#f0f0f0"; 
+                    emailField.style.cursor = "not-allowed"; 
+                    document.getElementById("otpSection").hidden = true;
+                    document.getElementById("emailMessage").textContent = "Email Verified ✅";
+                    document.getElementById("sendotpbtn").hidden = true;
+                    document.getElementById("otpTimer").hidden = true;
                 } else if (data === "expired") {
                     messageDiv.textContent = "OTP has expired.";
                     messageDiv.className = "error";
