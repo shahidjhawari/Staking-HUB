@@ -1,14 +1,19 @@
 <?php
 ob_start();
-require('header.php');
-require('db_connection.php'); // Ensure this is included to access the $conn variable
+session_start();
+require('header.php'); // اس میں $conn موجود ہونا چاہیے (DB connection)
 
 function test_input($data)
 {
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
-$token = isset($_GET['token']) ? test_input($_GET['token']) : '';
+if (!isset($_SESSION['fp_email'])) {
+    echo "<div class='container mt-5'><div class='alert alert-danger'>Unauthorized access. No email session found.</div></div>";
+    exit();
+}
+
+$email = $_SESSION['fp_email'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_password = test_input($_POST["new_password"]);
@@ -19,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if (strlen($new_password) < 8 || strlen($new_password) > 20) {
         $error_message = "Password must be between 8 and 20 characters.";
     } else {
-        // Validate the reset token
-        $stmt = $conn->prepare("SELECT username FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()");
-        $stmt->bind_param("s", $token);
+        // ✅ Check if email exists in users table
+        $stmt = $conn->prepare("SELECT username FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
 
@@ -30,18 +35,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->fetch();
             $stmt->close();
 
-            // Hash the new password
+            // ✅ Hash the new password
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-            // Update the user's password and clear the reset token
-            $stmt = $conn->prepare("UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE username = ?");
-            $stmt->bind_param("ss", $hashed_password, $username);
+            // ✅ Update the user's password
+            $stmt = $conn->prepare("UPDATE users SET password = ? WHERE email = ?");
+            $stmt->bind_param("ss", $hashed_password, $email);
             $stmt->execute();
             $stmt->close();
 
+            // ✅ Clear session values (for security)
+            unset($_SESSION['fp_email']);
+            unset($_SESSION['fp_otp']);
+            unset($_SESSION['fp_otp_expiry']);
+
             $success_message = "Your password has been reset successfully.";
         } else {
-            $error_message = "Invalid or expired reset token.";
+            $error_message = "Email not found in database.";
         }
     }
 }
@@ -75,8 +85,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="alert alert-success" role="alert">
                     <?php echo $success_message; ?>
                 </div>
+                <div class="text-center mt-3">
+                    <a href="index.php" id="backToLoginBtn" class="btn btn-success">Now Back to Login</a>
+                </div>
             <?php endif; ?>
-            <form action="reset_password.php?token=<?php echo urlencode($token); ?>" method="POST">
+
+            <form method="POST">
                 <div class="form-group">
                     <label for="new_password">New Password:</label>
                     <input type="password" class="form-control" id="new_password" name="new_password" required minlength="8" maxlength="20">
@@ -90,3 +104,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const successAlert = document.querySelector('.alert-success');
+        const backToLoginBtn = document.getElementById('backToLoginBtn');
+
+        if (successAlert && backToLoginBtn) {
+            // تھوڑا smooth effect دینے کے لیے
+            backToLoginBtn.style.display = "none";
+            setTimeout(() => {
+                backToLoginBtn.style.display = "inline-block";
+            }, 500); // 0.5 سیکنڈ بعد بٹن ظاہر ہوگا
+        }
+    });
+</script>
