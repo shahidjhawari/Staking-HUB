@@ -9,7 +9,8 @@ if (!isset($_SESSION['user_id'])) {
   exit();
 }
 
-function test_input($data){
+function test_input($data)
+{
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
@@ -125,8 +126,8 @@ $stmt->close();
                 <option value="" disabled selected>Select a payment method</option>
                 <!-- <option value="Easy Paisa">Easy Paisa</option>
                 <option value="Valid Cash">Jazz Cash</option> -->
-                <option value="USDT">USDT</option>
-                <!-- <option value="binance">Binance Pay ID</option> -->
+                <option value="USDT">USDT TRC20</option>
+                <option value="USDTBEP">USDT BEP20</option>
               </select>
             </div>
             <div id="additional_fields"></div>
@@ -214,6 +215,16 @@ $stmt->close();
           <label for="binance_id">Binance Pay ID</label>
           <input type="text" class="form-control" id="binance_id" name="binance_id" value="171676655" readonly>
         </div>`;
+    } else if (paymentMethod === "USDTBEP") {
+      additionalFields.innerHTML = `
+            <div class="form-group">
+                <label for="network">Network</label>
+                <input type="text" class="form-control" id="network" name="network" value="BEP20" readonly>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="0xbcfc31abbce2c4193d71bfc54b45bccc391b68bd" readonly>
+            </div>`;
     }
   }
 </script>
