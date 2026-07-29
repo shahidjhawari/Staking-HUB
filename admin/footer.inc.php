@@ -1,6 +1,6 @@
-      <!-- Custom template | don't include it in your project! -->
-      <!-- End Custom template -->
-      </div>
+        </div><!-- /.main-panel -->
+    </div><!-- /.admin-shell -->
+
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="assets/js/core/popper.min.js"></script>
@@ -38,32 +38,39 @@
     <script src="assets/js/setting-demo.js"></script>
     <script src="assets/js/demo.js"></script>
     <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
+      if ($("#lineChart").length) {
+        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+          type: "line", height: "70", width: "100%", lineWidth: "2",
+          lineColor: "#17e6b0", fillColor: "rgba(23, 230, 176, 0.14)",
+        });
+      }
+      if ($("#lineChart2").length) {
+        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+          type: "line", height: "70", width: "100%", lineWidth: "2",
+          lineColor: "#ff5d7a", fillColor: "rgba(255, 93, 122, .14)",
+        });
+      }
+      if ($("#lineChart3").length) {
+        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+          type: "line", height: "70", width: "100%", lineWidth: "2",
+          lineColor: "#ffb020", fillColor: "rgba(255, 176, 32, .14)",
+        });
+      }
 
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
+      // Mobile sidebar toggle
+      var toggleBtn = document.getElementById('sidebarToggle');
+      var sidebar = document.getElementById('left-panel');
+      var overlay = document.getElementById('sidebarOverlay');
+      if (toggleBtn && sidebar && overlay) {
+        toggleBtn.addEventListener('click', function () {
+          sidebar.classList.toggle('show');
+          overlay.classList.toggle('show');
+        });
+        overlay.addEventListener('click', function () {
+          sidebar.classList.remove('show');
+          overlay.classList.remove('show');
+        });
+      }
     </script>
 </body>
 

@@ -20,42 +20,41 @@ if(isset($_POST['submit'])){
 }
 ?>
 <!doctype html>
-<html class="no-js" lang="">
-   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<html class="no-js" lang="en">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Login Page</title>
+      <title>Admin Login | StakingHUB</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="assets/css/normalize.css">
+      <link rel="icon" href="../img/logo2.png" type="image/x-icon">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="assets/css/bootstrap.min.css">
       <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-      <link rel="stylesheet" href="assets/css/themify-icons.css">
-      <link rel="stylesheet" href="assets/css/pe-icon-7-filled.css">
-      <link rel="stylesheet" href="assets/css/flag-icon.min.css">
-      <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-      <link rel="stylesheet" href="assets/css/style.css">
-      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="assets/css/glass-admin.css">
    </head>
-   <body class="bg-dark">
-      <div class="sufee-login d-flex align-content-center flex-wrap">
-         <div class="container">
-            <div class="login-content">
-               <div class="login-form mt-150">
-                  <form method="post">
-                     <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" name="username" class="form-control" placeholder="Username" required>
-                     </div>
-                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control" placeholder="Password" required>
-                     </div>
-                     <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
-					</form>
-					<div class="field_error"><?php echo $msg?></div>
-               </div>
+   <body>
+      <div class="admin-auth-shell">
+         <div class="admin-auth-card">
+            <div class="text-center mb-4">
+               <img src="../img/logo2.png" alt="StakingHUB" width="60" style="filter:drop-shadow(0 0 14px rgba(23,230,176,0.5));">
+               <h4 class="mt-3 mb-1">Admin Console</h4>
+               <p style="color:var(--text-3);font-size:.88rem;">Sign in to manage StakingHUB</p>
             </div>
+            <form method="post">
+               <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" name="username" class="form-control" placeholder="Username" required>
+               </div>
+               <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" name="password" class="form-control" placeholder="Password" required>
+               </div>
+               <button type="submit" name="submit" class="btn btn-primary btn-block mt-3">Sign In</button>
+            </form>
+            <?php if (!empty($msg)) : ?>
+               <div class="alert alert-danger mt-3 mb-0 text-center py-2"><?php echo $msg; ?></div>
+            <?php endif; ?>
          </div>
       </div>
       <script src="assets/js/vendor/jquery-2.1.4.min.js" type="text/javascript"></script>

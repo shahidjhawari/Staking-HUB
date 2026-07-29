@@ -44,82 +44,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<style>
-    body {
-        background: #070F2B;
-        color: white;
-    }
-
-    .centered-form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .form-container {
-        width: 100%;
-        max-width: 400px;
-        padding: 20px;
-        border: 1px solid #e3e3e3;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background: #141E46;
-    }
-
-    .error-message {
-        color: red;
-        margin-top: 10px;
-    }
-
-    .password-container {
-        position: relative;
-    }
-
-    .toggle-password {
-        position: absolute;
-        top: 75%;
-        right: 10px;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: black;
-    }
-</style>
-
-
-<div class="container">
-    <div class="centered-form">
-        <div class="form-container">
-            <div class="text-center mb-4">
-                <img src="img/logo2.png" alt="Logo" class="img-fluid" width="70">
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="logo-wrap">
+            <img src="img/logo2.png" alt="StakingHUB" width="64">
+        </div>
+        <h4 class="text-center mb-1">Welcome back</h4>
+        <p class="auth-subtitle">Log in to manage your stake and earnings</p>
+        <?php
+        if (!empty($emailError)) {
+            echo '<div class="alert alert-danger py-2 px-3 mb-3">' . $emailError . '</div>';
+        }
+        if (!empty($passwordError)) {
+            echo '<div class="alert alert-danger py-2 px-3 mb-3">' . $passwordError . '</div>';
+        }
+        ?>
+        <form method="post" autocomplete="off">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
             </div>
-            <?php
-            if (!empty($emailError)) {
-                echo '<p class="error-message">' . $emailError . '</p>';
-            }
-            if (!empty($passwordError)) {
-                echo '<p class="error-message">' . $passwordError . '</p>';
-            }
-            ?>
-            <form method="post" autocomplete="off">
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
-                </div>
-                <div class="form-group password-container">
-                    <label for="password">Password *</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
-                    <i class="fas fa-eye toggle-password" data-target="password"></i>
-                </div>
-                <div class="form-group text-right">
-                    <a href="forgot_password.php" class="text-decoration-none">Forgot password?</a>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
-            </form>
-            <div class="text-center mt-3">
-                <p>Don't have an account? <a href="signup.php" class="text-decoration-none">Sign up</a></p>
+            <div class="form-group password-container">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                <i class="fas fa-eye toggle-password" data-target="password"></i>
             </div>
+            <div class="form-group text-right mb-3">
+                <a href="forgot_password.php">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        </form>
+        <div class="text-center mt-4" style="color:var(--text-3);">
+            <p class="mb-0">Don't have an account? <a href="signup.php">Sign up</a></p>
         </div>
     </div>
 </div>

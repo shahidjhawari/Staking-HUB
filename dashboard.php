@@ -413,14 +413,14 @@ $stmt->close();
     <div class="row">
 
         <div class="col-12 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
                         <div class="col-12">
                             <!-- Wallet Balance -->
-                            <p class="fs-5 mb-3">Wallet Balance</p>
+                            <p class="mb-2" style="color:var(--text-2);letter-spacing:.04em;text-transform:uppercase;font-size:.8rem;"><i class="fas fa-wallet mr-2"></i>Wallet Balance</p>
                             <!-- Wallet Balance Amount (in larger size) -->
-                            <h2 class="display-5 mb-4" style="margin-top: -15px;">$<?php echo htmlspecialchars(number_format($wallet_balance, 2)); ?></h2>
+                            <h2 class="stat-value mb-0">$<?php echo htmlspecialchars(number_format($wallet_balance, 2)); ?></h2>
                             <!-- Your Account Has Been Activated message -->
                             <!-- <?php if ($transaction_status === 'accepted') : ?>
                                 <p>Your account has been <span style="color: green;">Activated</span></p>

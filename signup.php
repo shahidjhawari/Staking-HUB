@@ -126,98 +126,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
 }
 ?>
 
-<style>
-    body {
-        background: #070F2B;
-        color: white;
-    }
+<div class="auth-shell">
+    <div class="auth-card" style="max-width:460px;">
+        <div class="logo-wrap">
+            <img src="img/logo2.png" alt="StakingHUB" width="64">
+        </div>
+        <h4 class="text-center mb-1">Create your account</h4>
+        <p class="auth-subtitle">Join StakingHUB and start earning today</p>
+        <?php if ($signupDisabled): ?>
+            <div class="alert alert-danger text-center">Signup limit reached, signup currently disabled.</div>
+        <?php else: ?>
+            <form action="signup.php" method="post" autocomplete="off">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required autocomplete="new-name">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required autocomplete="new-username" minlength="8" maxlength="18">
+                    <span class="error-message small"><?php echo $usernameError; ?></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
+                    <span class="error-message small"><?php echo $emailError; ?></span>
+                </div>
 
-    .centered-form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .form-container {
-        width: 100%;
-        max-width: 400px;
-        padding: 20px;
-        border: 1px solid #e3e3e3;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background: #141E46;
-    }
-
-    .error {
-        color: red;
-        margin-top: 5px;
-    }
-
-    .success {
-        color: #0f0;
-        margin-top: 5px;
-    }
-
-    .password-container {
-        position: relative;
-    }
-
-    .toggle-password {
-        position: absolute;
-        top: 75%;
-        right: 10px;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: black;
-    }
-</style>
-
-<div class="container">
-    <div class="centered-form">
-        <div class="form-container">
-            <?php if ($signupDisabled): ?>
-                <p class="text-danger text-center">Signup limit reached, signup currently disabled.</p>
-            <?php else: ?>
-                <form action="signup.php" method="post" autocomplete="off">
-                    <div class="form-group">
-                        <label for="name">Name *</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required autocomplete="new-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username *</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required autocomplete="new-username" minlength="8" maxlength="18">
-                        <span class="error"><?php echo $usernameError; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
-                        <span class="error"><?php echo $emailError; ?></span>
-                    </div>
-
-                    <div class="form-group password-container">
-                        <label for="password">Password *</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20">
-                        <i class="fas fa-eye toggle-password" data-target="password"></i>
-                        <span class="error"><?php echo $passwordError; ?></span>
-                    </div>
-                    <div class="form-group password-container">
-                        <label for="confirmPassword">Confirm Password *</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required autocomplete="new-password" minlength="8" maxlength="20">
-                        <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
-                    </div>
-                    <div class="form-group">
-                        <label for="referral">Referral Code (optional)</label>
-                        <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>">
-                        <span class="error"><?php echo $referralError; ?></span>
-                    </div>
-                    <button id="signupBtn" type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                </form>
-            <?php endif; ?>
-            <div class="text-center mt-3">
-                <p>Already have an account? <a href="index.php" class="text-decoration-none">Login</a></p>
-            </div>
+                <div class="form-group password-container">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20">
+                    <i class="fas fa-eye toggle-password" data-target="password"></i>
+                    <span class="error-message small"><?php echo $passwordError; ?></span>
+                </div>
+                <div class="form-group password-container">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required autocomplete="new-password" minlength="8" maxlength="20">
+                    <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
+                </div>
+                <div class="form-group">
+                    <label for="referral">Referral Code (optional)</label>
+                    <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>">
+                    <span class="error-message small"><?php echo $referralError; ?></span>
+                </div>
+                <button id="signupBtn" type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            </form>
+        <?php endif; ?>
+        <div class="text-center mt-4" style="color:var(--text-3);">
+            <p class="mb-0">Already have an account? <a href="index.php">Login</a></p>
         </div>
     </div>
 </div>

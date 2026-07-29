@@ -57,51 +57,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<style>
-    body {
-        background: #f8f9fa;
-        color: #333;
-    }
-
-    .container {
-        margin-top: 50px;
-    }
-
-    .alert {
-        margin-top: 20px;
-    }
-</style>
-
-<div class="container">
-    <h2 class="text-center">Reset Password</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <?php if (isset($error_message)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?php echo $error_message; ?>
-                </div>
-            <?php endif; ?>
-            <?php if (isset($success_message)): ?>
-                <div class="alert alert-success" role="alert">
-                    <?php echo $success_message; ?>
-                </div>
-                <div class="text-center mt-3">
-                    <a href="index.php" id="backToLoginBtn" class="btn btn-success">Now Back to Login</a>
-                </div>
-            <?php endif; ?>
-
-            <form method="POST">
-                <div class="form-group">
-                    <label for="new_password">New Password:</label>
-                    <input type="password" class="form-control" id="new_password" name="new_password" required minlength="8" maxlength="20">
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required minlength="8" maxlength="20">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
-            </form>
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="logo-wrap">
+            <img src="img/logo2.png" alt="StakingHUB" width="64">
         </div>
+        <h4 class="text-center mb-1">Reset Password</h4>
+        <p class="auth-subtitle">Choose a new password for your account</p>
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $error_message; ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($success_message)): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $success_message; ?>
+            </div>
+            <div class="text-center mt-3">
+                <a href="index.php" id="backToLoginBtn" class="btn btn-success btn-block">Now Back to Login</a>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="new_password">New Password</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" required minlength="8" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required minlength="8" maxlength="20">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+        </form>
     </div>
 </div>
 

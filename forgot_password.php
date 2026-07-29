@@ -80,30 +80,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] === 'verify') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Forgot Password</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/own1.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password | StakingHUB</title>
+    <link rel="icon" href="img/logo2.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/glass-theme.css">
 </head>
-<div class="container mt-5">
-    <h2 class="text-center">Forgot Password</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form id="forgotForm" onsubmit="return false;">
+<body>
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="logo-wrap">
+            <img src="img/logo2.png" alt="StakingHUB" width="64">
+        </div>
+        <h4 class="text-center mb-1">Forgot Password</h4>
+        <p class="auth-subtitle">We'll email you a one-time code to reset it</p>
+        <form id="forgotForm" onsubmit="return false;">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@gmail.com" required>
+                <div id="emailMessage" class="mt-2 small"></div>
+                <button type="button" id="sendOtpBtn" class="btn btn-primary btn-block mt-3" onclick="sendOTP()">Send OTP</button>
+            </div>
+            <div id="otpSection" style="display:none;">
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                    <div id="emailMessage" class="mt-2"></div>
-                    <button type="button" id="sendOtpBtn" class="btn btn-primary btn-block mt-2" onclick="sendOTP()">Send OTP</button>
+                    <label for="otp">Enter OTP</label>
+                    <input type="text" class="form-control" id="otp" placeholder="6-digit code" required>
+                    <div id="otpMessage" class="mt-2 small"></div>
+                    <button type="button" class="btn btn-secondary btn-block mt-3" onclick="verifyOTP()">Verify OTP</button>
                 </div>
-                <div id="otpSection" style="display:none;">
-                    <div class="form-group">
-                        <label for="otp">Enter OTP:</label>
-                        <input type="text" class="form-control" id="otp" required>
-                        <div id="otpMessage" class="mt-2"></div>
-                        <button type="button" class="btn btn-success btn-block mt-2" onclick="verifyOTP()">Verify OTP</button>
-                    </div>
-                </div>
-            </form>
+            </div>
+        </form>
+        <div class="text-center mt-4" style="color:var(--text-3);">
+            <p class="mb-0"><a href="index.php">Back to Login</a></p>
         </div>
     </div>
 </div>
@@ -185,3 +196,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] === 'verify') {
         }, 1000);
     }
 </script>
+</body>
+</html>

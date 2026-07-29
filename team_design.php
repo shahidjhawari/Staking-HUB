@@ -70,8 +70,10 @@ $result = $stmt->get_result();
 <style>
     p {
         padding: 15px;
-        background: #070F2B;
-        border-radius: 10px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 12px;
+        backdrop-filter: blur(18px);
     }
 
     .locked {
