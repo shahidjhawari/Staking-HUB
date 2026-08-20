@@ -420,7 +420,7 @@ $stmt->close();
                             <!-- Wallet Balance -->
                             <p class="mb-2" style="color:var(--text-2);letter-spacing:.04em;text-transform:uppercase;font-size:.8rem;"><i class="fas fa-wallet mr-2"></i>Wallet Balance</p>
                             <!-- Wallet Balance Amount (in larger size) -->
-                            <h2 class="stat-value mb-0">$<?php echo htmlspecialchars(number_format($wallet_balance, 2)); ?></h2>
+                            <h2 class="stat-value mb-0" data-cy="wallet-balance">$<?php echo htmlspecialchars(number_format($wallet_balance, 2)); ?></h2>
                             <!-- Your Account Has Been Activated message -->
                             <!-- <?php if ($transaction_status === 'accepted') : ?>
                                 <p>Your account has been <span style="color: green;">Activated</span></p>

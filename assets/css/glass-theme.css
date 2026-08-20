@@ -182,20 +182,73 @@ a:hover, a:focus {
   border-radius: 10px;
 }
 
+.navbar-nav {
+  align-items: center;
+}
+
+.main-nav-items {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
 .navbar-nav .nav-link {
   color: var(--text-2) !important;
   font-weight: 500;
-  font-size: 0.92rem;
-  padding: 0.6rem 0.9rem !important;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.7rem !important;
   border-radius: 10px;
-  margin: 0 2px;
+  margin: 0 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  line-height: 1.1;
   transition: all 0.2s ease;
+}
+
+.navbar-nav .nav-link i {
+  font-size: 0.82rem;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.navbar-nav .nav-link span {
+  line-height: 1;
+}
+
+.navbar-nav .dropdown-toggle::after {
+  margin-left: 4px;
+  vertical-align: 0.15em;
 }
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
   color: var(--text-1) !important;
   background: var(--glass-bg-strong);
+}
+
+/* Logout stands apart from the main nav links */
+.nav-item-logout {
+  margin-left: 4px;
+}
+
+.nav-item-logout .nav-link {
+  color: var(--accent-rose) !important;
+}
+
+.nav-item-logout .nav-link:hover {
+  background: rgba(255, 93, 122, 0.12);
+  color: var(--accent-rose) !important;
+}
+
+@media (min-width: 992px) {
+  .nav-item-logout {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid var(--glass-border);
+  }
 }
 
 .dropdown-menu {
@@ -227,7 +280,56 @@ a:hover, a:focus {
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     margin-top: 12px;
-    padding: 10px 14px 16px;
+    padding: 10px 10px 14px;
+    max-height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .main-nav-items {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    row-gap: 2px;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    width: 100%;
+    white-space: normal;
+    font-size: 0.92rem;
+    padding: 0.75rem 0.9rem !important;
+    justify-content: flex-start;
+    border-radius: 12px;
+  }
+
+  .navbar-nav .nav-link i {
+    width: 20px;
+    font-size: 0.95rem;
+  }
+
+  .navbar-nav .dropdown-menu {
+    width: 100%;
+    margin: 2px 0 6px !important;
+    box-shadow: none;
+  }
+
+  .navbar-nav .dropdown-toggle::after {
+    margin-left: auto;
+  }
+
+  .navbar-nav .dropdown-toggle {
+    justify-content: space-between;
+  }
+
+  .nav-item-logout {
+    margin-left: 0;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--glass-border);
   }
 }
 
@@ -408,6 +510,26 @@ label {
   box-shadow: 0 0 0 3px rgba(23, 230, 176, 0.18) !important;
   color: var(--text-1) !important;
   outline: none;
+}
+
+/* Native <select> popups can't render a translucent glass background, so give
+   them a solid dark surface instead — otherwise the browser falls back to a
+   white box with light text, making the options unreadable. */
+select, select.form-control {
+  background-color: var(--bg-2) !important;
+  color: var(--text-1) !important;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
+select option {
+  background-color: var(--bg-2) !important;
+  color: var(--text-1) !important;
+}
+
+select optgroup {
+  background-color: var(--bg-2) !important;
+  color: var(--text-2) !important;
 }
 
 .input-group-text {

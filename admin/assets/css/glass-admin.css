@@ -312,6 +312,22 @@ a:hover { color: var(--accent-violet); }
   color: var(--text-1) !important;
 }
 
+/* Native select popups need a solid background — glass/translucent colors
+   don't render in the browser's own dropdown list, which otherwise falls
+   back to white-on-white and hides the option text. */
+select, select.form-control {
+  background-color: var(--bg-2) !important;
+  color: var(--text-1) !important;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
+select option,
+select optgroup {
+  background-color: var(--bg-2) !important;
+  color: var(--text-1) !important;
+}
+
 label { color: var(--text-2) !important; font-weight: 500; font-size: 0.86rem; }
 
 .btn {

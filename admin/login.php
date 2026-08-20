@@ -44,16 +44,16 @@ if(isset($_POST['submit'])){
             <form method="post">
                <div class="form-group">
                   <label>Username</label>
-                  <input type="text" name="username" class="form-control" placeholder="Username" required>
+                  <input type="text" name="username" class="form-control" placeholder="Username" required data-cy="admin-username">
                </div>
                <div class="form-group">
                   <label>Password</label>
-                  <input type="password" name="password" class="form-control" placeholder="Password" required>
+                  <input type="password" name="password" class="form-control" placeholder="Password" required data-cy="admin-password">
                </div>
-               <button type="submit" name="submit" class="btn btn-primary btn-block mt-3">Sign In</button>
+               <button type="submit" name="submit" class="btn btn-primary btn-block mt-3" data-cy="admin-submit">Sign In</button>
             </form>
             <?php if (!empty($msg)) : ?>
-               <div class="alert alert-danger mt-3 mb-0 text-center py-2"><?php echo $msg; ?></div>
+               <div class="alert alert-danger mt-3 mb-0 text-center py-2" data-cy="admin-login-error"><?php echo $msg; ?></div>
             <?php endif; ?>
          </div>
       </div>

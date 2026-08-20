@@ -53,26 +53,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p class="auth-subtitle">Log in to manage your stake and earnings</p>
         <?php
         if (!empty($emailError)) {
-            echo '<div class="alert alert-danger py-2 px-3 mb-3">' . $emailError . '</div>';
+            echo '<div class="alert alert-danger py-2 px-3 mb-3" data-cy="login-error">' . $emailError . '</div>';
         }
         if (!empty($passwordError)) {
-            echo '<div class="alert alert-danger py-2 px-3 mb-3">' . $passwordError . '</div>';
+            echo '<div class="alert alert-danger py-2 px-3 mb-3" data-cy="login-error">' . $passwordError . '</div>';
         }
         ?>
         <form method="post" autocomplete="off">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required data-cy="login-email">
             </div>
             <div class="form-group password-container">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required data-cy="login-password">
                 <i class="fas fa-eye toggle-password" data-target="password"></i>
             </div>
             <div class="form-group text-right mb-3">
                 <a href="forgot_password.php">Forgot password?</a>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+            <button type="submit" class="btn btn-primary btn-block" data-cy="login-submit">Log In</button>
         </form>
         <div class="text-center mt-4" style="color:var(--text-3);">
             <p class="mb-0">Don't have an account? <a href="signup.php">Sign up</a></p>

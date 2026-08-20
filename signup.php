@@ -139,36 +139,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !$signupDisabled) {
             <form action="signup.php" method="post" autocomplete="off">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required autocomplete="new-name">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required autocomplete="new-name" data-cy="signup-name">
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required autocomplete="new-username" minlength="8" maxlength="18">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required autocomplete="new-username" minlength="8" maxlength="18" data-cy="signup-username">
                     <span class="error-message small"><?php echo $usernameError; ?></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required autocomplete="new-email" data-cy="signup-email">
                     <span class="error-message small"><?php echo $emailError; ?></span>
                 </div>
 
                 <div class="form-group password-container">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required autocomplete="new-password" minlength="8" maxlength="20" data-cy="signup-password">
                     <i class="fas fa-eye toggle-password" data-target="password"></i>
                     <span class="error-message small"><?php echo $passwordError; ?></span>
                 </div>
                 <div class="form-group password-container">
                     <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required autocomplete="new-password" minlength="8" maxlength="20">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required autocomplete="new-password" minlength="8" maxlength="20" data-cy="signup-confirm-password">
                     <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
                 </div>
                 <div class="form-group">
                     <label for="referral">Referral Code (optional)</label>
-                    <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>">
+                    <input type="text" class="form-control" id="referral" name="referral" placeholder="Enter referral code" value="<?php echo $referral_code; ?>" data-cy="signup-referral">
                     <span class="error-message small"><?php echo $referralError; ?></span>
                 </div>
-                <button id="signupBtn" type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                <button id="signupBtn" type="submit" class="btn btn-primary btn-block" data-cy="signup-submit">Sign Up</button>
             </form>
         <?php endif; ?>
         <div class="text-center mt-4" style="color:var(--text-3);">

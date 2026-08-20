@@ -13,13 +13,13 @@ if ($localhost) {
     
     if (strpos($host, 'infinityfree.com') !== false) {
         // First Online
-        $conn = mysqli_connect("sql211.infinityfree.com", "if0_42556896", "HbAi5lwdT0u3i", "if0_42556896_coin");
+        $conn = mysqli_connect("sql206.infinityfree.com", "if0_36853949", "ZkQAKes45YF34", "if0_36853949_coin");
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
         define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/');
         define('SITE_PATH', $protocol . $host . '/');
     } else {
         // Original Online
-        $conn = mysqli_connect("sql211.infinityfree.com", "if0_42556896", "HbAi5lwdT0u3i", "if0_42556896_coin");
+        $conn = mysqli_connect("sql213.infinityfree.com", "if0_37082220", "bX5rPVvrqf0SDv", "if0_37082220_coin");
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
         define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/');
         define('SITE_PATH', $protocol . $host . '/');

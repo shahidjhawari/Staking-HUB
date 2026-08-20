@@ -79,23 +79,23 @@ if ($user_id) {
                     <img src="img/logo2.png" width="36" alt="StakingHUB">
                     <span class="ml-2 text-gradient font-weight-bold" style="font-family:var(--font-display);font-size:1.1rem;">StakingHUB</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-cy="navbar-toggler">
                     <i class="fas fa-bars" style="color: var(--text-1);"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-lg-auto">
+                    <ul class="navbar-nav main-nav-items">
                         <li class="nav-item">
-                            <a class="nav-link" href="profile.php"><i class="fas fa-user mr-1"></i> My Profile</a>
+                            <a class="nav-link" href="profile.php" data-cy="nav-profile"><i class="fas fa-user"></i><span>My Profile</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="one_dollar.php"><i class="fas fa-dice mr-1"></i> 1$ Game</a>
+                            <a class="nav-link" href="one_dollar.php" data-cy="nav-one-dollar"><i class="fas fa-dice"></i><span>1$ Game</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="dashboard.php"><i class="fas fa-wallet mr-1"></i> Wallet</a>
+                            <a class="nav-link" href="dashboard.php" data-cy="nav-wallet"><i class="fas fa-wallet"></i><span>Wallet</span></a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="transactionsDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-exchange-alt mr-1"></i> Transactions
+                            <a class="nav-link dropdown-toggle" href="#" id="transactionsDropdown" role="button" data-toggle="dropdown" aria-expanded="false" data-cy="nav-transactions-dropdown">
+                                <i class="fas fa-exchange-alt"></i><span>Transactions</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="transactionsDropdown">
                                 <?php if ($transaction_status === 'accepted') : ?>
@@ -118,8 +118,8 @@ if ($user_id) {
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="stackingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-layer-group mr-1"></i> Staking
+                            <a class="nav-link dropdown-toggle" href="#" id="stackingDropdown" role="button" data-toggle="dropdown" aria-expanded="false" data-cy="nav-staking-dropdown">
+                                <i class="fas fa-layer-group"></i><span>Staking</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="stackingDropdown">
                                 <li><a class="dropdown-item" href="staking.php">Staking</a></li>
@@ -127,11 +127,11 @@ if ($user_id) {
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="stacking_dummy.php"><i class="fas fa-chart-line mr-1"></i> Daily Earning</a>
+                            <a class="nav-link" href="stacking_dummy.php" data-cy="nav-daily-earning"><i class="fas fa-chart-line"></i><span>Daily Earning</span></a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="teamDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-users mr-1"></i> Team Building
+                            <a class="nav-link dropdown-toggle" href="#" id="teamDropdown" role="button" data-toggle="dropdown" aria-expanded="false" data-cy="nav-team-dropdown">
+                                <i class="fas fa-users"></i><span>Team Building</span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="teamDropdown">
                                 <li><a class="dropdown-item" href="team_member.php">Team Building Member</a></li>
@@ -139,15 +139,13 @@ if ($user_id) {
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="bonus_rewards.php"><i class="fas fa-gift mr-1"></i> Bonus Reward</a>
+                            <a class="nav-link" href="bonus_rewards.php" data-cy="nav-bonus-rewards"><i class="fas fa-gift"></i><span>Bonus Reward</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.php"><i class="fas fa-headset mr-1"></i> Contact Us</a>
+                            <a class="nav-link" href="contact.php" data-cy="nav-contact"><i class="fas fa-headset"></i><span>Contact Us</span></a>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt mr-1"></i> Logout</a>
+                        <li class="nav-item nav-item-logout">
+                            <a class="nav-link" href="logout.php" data-cy="nav-logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
                         </li>
                     </ul>
                 </div>
